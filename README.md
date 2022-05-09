@@ -62,3 +62,46 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Pasos
+https://www.positronx.io/laravel-bootstrap-tags-system-example-tutorial/
+
+laravel new laravel-tags-example
+configurar base de datos
+composer require rtconner/laravel-tagging
+app/config/app.php:
+    ....
+    ....
+    'providers' => [
+        ....
+        ....
+        \Conner\Tagging\Providers\TaggingServiceProvider::class,
+        ....
+        ....
+    ]
+php artisan vendor:publish --provider="Conner\Tagging\Providers\TaggingServiceProvider"
+php artisan migrate
+php artisan make:model Post -m
+Update code in app/Models/Post.php file:
+    <?php
+    namespace App\Models;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Database\Eloquent\Model;
+    class Post extends Model
+    {
+        use HasFactory;
+        use \Conner\Tagging\Taggable;
+        
+        protected $fillable = [ 
+            'title_name', 
+            'content' 
+        ];
+    }
+    Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('title');
+            $table->text('content');
+        });
+php artisan migrate
